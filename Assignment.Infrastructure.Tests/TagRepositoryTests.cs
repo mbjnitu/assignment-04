@@ -1,5 +1,6 @@
-namespace Assignment3.Infrastructure.Tests;
+namespace Assignment.Infrastructure.Tests;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 public class TagRepositoryTests
@@ -57,7 +58,7 @@ public class TagRepositoryTests
         //Happens in database creation
 
         //Act
-        var response = _repository.Read(2);
+        var response = _repository.Find(2);
 
         //Assert
         response.Should().Be(new TagDTO(2, "tagName2"));
@@ -85,7 +86,7 @@ public class TagRepositoryTests
         //Happens in database creation
 
         //Act
-        var response = _repository.ReadAll();
+        var response = _repository.Read();
         var output = new[] {new TagDTO(1, "tagName"), new TagDTO(2, "tagName2")};
 
         //Assert

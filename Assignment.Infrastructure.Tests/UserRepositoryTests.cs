@@ -1,4 +1,4 @@
-namespace Assignment3.Infrastructure.Tests;
+namespace Assignment.Infrastructure.Tests;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,10 +29,10 @@ public class UserRepositoryTests
         //Happens in database creation
 
         //Act
-        var (response, created) = _repository.Create(new Core.UserCreateDTO("Bobbelademad", "sej@mail.tv"));
+        var (response, created) = _repository.Create(new UserCreateDTO("Bobbelademad", "sej@mail.tv"));
 
         //Assert
-        response.Should().Be(Core.Response.Created);
+        response.Should().Be(Response.Created);
         created.Should().Be(new UserDTO(3, "Bobbelademad", "sej@mail.tv").Id); //When creating the database, we add 2 tags (tagName and tagName2) therefor the one created in this test must have id 3.
     }
 
@@ -46,7 +46,7 @@ public class UserRepositoryTests
         var response = _repository.Delete(2);
 
         //Assert
-        response.Should().Be(Core.Response.Deleted);
+        response.Should().Be(Response.Deleted);
 
     }
 
@@ -57,7 +57,7 @@ public class UserRepositoryTests
         //Happens in database creation
 
         //Act
-        var response = _repository.Read(2);
+        var response = _repository.Find(2);
 
         //Assert
         response.Should().Be(new UserDTO(2, "Bobbeline", "test@mail.com"));
@@ -74,7 +74,7 @@ public class UserRepositoryTests
         var response = _repository.Update(new UserUpdateDTO(2, "Toddesine", "Todd@esine.dk"));
 
         //Assert
-        response.Should().Be(Core.Response.Updated);
+        response.Should().Be(Response.Updated);
 
     }
 
@@ -85,7 +85,7 @@ public class UserRepositoryTests
         //Happens in database creation
 
         //Act
-        var response = _repository.ReadAll();
+        var response = _repository.Read();
         var output = new[] {new UserDTO(1,"Bob", "mail@mail.dk"), new UserDTO(2, "Bobbeline", "test@mail.com")};
 
         //Assert

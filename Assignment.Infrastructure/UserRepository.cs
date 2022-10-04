@@ -1,8 +1,8 @@
-using Assignment4.Core;
+using Assignment.Core;
 
-namespace Assignment4.Infrastructure;
+namespace Assignment.Infrastructure;
 
-public class UserRepository : Assignment4.Core.IUserRepository
+public class UserRepository : Assignment.Core.IUserRepository
 {
 
     private readonly KanbanContext _context;
@@ -43,7 +43,7 @@ public class UserRepository : Assignment4.Core.IUserRepository
         {
             response = Response.NotFound;
         }
-        else if (user.Tasks.Any() && !force)
+        else if (user.Items.Any() && !force)
         {
             response = Response.Conflict;
         }
@@ -58,7 +58,7 @@ public class UserRepository : Assignment4.Core.IUserRepository
         return response;
     }
 
-    public UserDTO Read(int userId)
+    public UserDTO Find(int userId)
     {
         var users = from u in _context.Users
                     where u.Id == userId
@@ -68,7 +68,7 @@ public class UserRepository : Assignment4.Core.IUserRepository
         else return users.FirstOrDefault(); //This will never be null here
     }
 
-    public IReadOnlyCollection<UserDTO> ReadAll()
+    public IReadOnlyCollection<UserDTO> Read()
     {
         var users = from u in _context.Users
                     select new UserDTO(u.Id, u.Name, u.Email);

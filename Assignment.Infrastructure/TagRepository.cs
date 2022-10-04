@@ -1,8 +1,8 @@
-using Assignment4.Core;
+using Assignment.Core;
 
-namespace Assignment4.Infrastructure;
+namespace Assignment.Infrastructure;
 
-public class TagRepository : Assignment4.Core.ITagRepository
+public class TagRepository : Assignment.Core.ITagRepository
 {
 
     private readonly KanbanContext _context;
@@ -43,7 +43,7 @@ public class TagRepository : Assignment4.Core.ITagRepository
         {
             response = Response.NotFound;
         }
-        else if (tag.Tasks.Any() && !force)
+        else if (tag.WorkItems.Any() && !force)
         {
             response = Response.Conflict;
         }
@@ -58,7 +58,7 @@ public class TagRepository : Assignment4.Core.ITagRepository
         return response;
     }
 
-    public TagDTO Read(int tagId)
+    public TagDTO Find(int tagId)
     {
         var tags =  from t in _context.Tags
                     where t.Id == tagId
@@ -68,7 +68,7 @@ public class TagRepository : Assignment4.Core.ITagRepository
         else return tags.FirstOrDefault(); //This will never be null here
     }
 
-    public IReadOnlyCollection<TagDTO> ReadAll()
+    public IReadOnlyCollection<TagDTO> Read()
     {
         var tags =  from t in _context.Tags
                     select new TagDTO(t.Id, t.Name);
